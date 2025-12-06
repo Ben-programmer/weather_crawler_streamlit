@@ -16,6 +16,8 @@ import plotly.graph_objects as go
 from datetime import datetime
 import os
 import numpy as np
+import subprocess
+import sys
 
 # Page configuration
 st.set_page_config(
@@ -27,6 +29,48 @@ st.set_page_config(
 
 # Database configuration
 DB_NAME = "sqlitedata.db"
+
+# Auto-fetch data if database doesn't exist (for Streamlit Cloud deployment)
+def ensure_data_exists():
+    """
+    Check if database exists, if not, automatically run crawler to fetch data.
+    This is essential for Streamlit Cloud where the filesystem is ephemeral.
+    """
+    if not os.path.exists(DB_NAME):
+        st.warning("⏳ Database not found. Fetching latest weather data from CWA API...")
+        
+        try:
+            # Import and run crawler functions directly
+            import crawler
+            
+            with st.spinner("🌐 Connecting to CWA Open Data API..."):
+                # Fetch data from API
+                data = crawler.fetch_cwa_opendata()
+                
+                if data and 'records' in data:
+                    # Initialize database
+                    crawler.init_database()
+                    
+                    # Extract and save data
+                    table_data = crawler.extract_temperature_table(data)
+                    crawler.save_to_database(table_data)
+                    
+                    st.success("✅ Weather data fetched successfully!")
+                    st.rerun()  # Reload the app with new data
+                else:
+                    st.error("❌ Failed to fetch data from CWA API. Please check your connection.")
+                    st.stop()
+                    
+        except Exception as e:
+            st.error(f"❌ Error fetching data: {e}")
+            st.info("💡 **Troubleshooting:**\n"
+                   "1. Check your internet connection\n"
+                   "2. Verify CWA API is accessible\n"
+                   "3. Check API authorization key")
+            st.stop()
+
+# Ensure data exists before proceeding
+ensure_data_exists()
 
 # Custom CSS for better styling
 st.markdown("""
