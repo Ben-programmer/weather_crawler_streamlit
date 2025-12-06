@@ -3,15 +3,26 @@ import json
 import sqlite3
 from datetime import datetime
 from pprint import pprint
+import urllib3
+
+# Disable SSL warnings (for Streamlit Cloud deployment)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def fetch_cwa_opendata():
+    """
+    Fetch weather data from CWA Open Data API.
+    
+    Note: SSL verification is disabled (verify=False) to handle certificate issues
+    in some deployment environments like Streamlit Cloud.
+    """
     url = (
         "https://opendata.cwa.gov.tw/fileapi/v1/opendataapi/F-A0010-001"
         "?Authorization=CWA-C9F8E7DB-1FAD-4DB2-BED6-54DD66994740"
         "&downloadType=WEB&format=JSON"
     )
 
-    response = requests.get(url, timeout=10)
+    # Disable SSL verification to avoid certificate errors in cloud environments
+    response = requests.get(url, timeout=30, verify=False)
     response.raise_for_status()
     return response.json()
 
