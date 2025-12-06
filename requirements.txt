@@ -2,7 +2,7 @@
 
 # Core dependencies
 requests>=2.31.0
-sqlite3  # Built-in, no installation needed
+# Note: sqlite3 is a built-in Python module, no installation needed
 
 # Streamlit Web Application
 streamlit>=1.29.0
