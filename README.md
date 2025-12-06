@@ -1,7 +1,34 @@
 # CWA Weather Data Crawler with SQLite Database
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://aiot-weather-crawler-app.streamlit.app/)
+
+## 🌐 線上 Demo
+
+<div align="center">
+
+### 🚀 [立即體驗線上版本](https://aiot-weather-crawler-app.streamlit.app/)
+
+**無需安裝，直接在瀏覽器中查看即時天氣預報視覺化！**
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://aiot-weather-crawler-app.streamlit.app/)
+
+</div>
+
+---
+
 ## 專案說明
-這個專案從中央氣象局（CWA）Open Data API 抓取天氣預報資料，並將資料儲存到 SQLite 資料庫中。
+
+這個專案從中央氣象局（CWA）Open Data API 抓取天氣預報資料，並將資料儲存到 SQLite 資料庫中，提供命令列工具和網頁視覺化介面。
+
+### ✨ 主要功能
+
+- 🌤️ **自動抓取天氣資料**：從 CWA Open Data API 獲取最新農業氣象預報
+- 💾 **SQLite 資料儲存**：持久化保存歷史資料，支援數據分析
+- 🖥️ **命令列查詢工具**：快速查詢特定地區或統計資訊
+- 🗺️ **互動式台灣地圖**：視覺化顯示各地區溫度分布
+- 📊 **資料視覺化**：溫度趨勢圖表、統計摘要、資料表格
+- ☁️ **雲端部署**：已部署至 Streamlit Cloud，隨時隨地訪問
+- 📱 **響應式設計**：支援桌面和行動裝置
 
 ## 檔案說明
 
@@ -230,11 +257,175 @@ Location     Avg MaxT   Avg MinT
 中部地區         27.3       16.6      
 ```
 
-## 注意事項
+## 🚀 快速開始
+
+### 方法 1: 使用線上版本（最簡單）
+直接訪問：[https://aiot-weather-crawler-app.streamlit.app/](https://aiot-weather-crawler-app.streamlit.app/)
+
+無需任何安裝！
+
+### 方法 2: 本地執行
+
+#### 1. 複製專案
+```bash
+git clone https://github.com/Ben-programmer/weather_crawler_streamlit.git
+cd weather_crawler_streamlit
+```
+
+#### 2. 安裝依賴
+```bash
+pip install -r requirements.txt
+```
+
+#### 3. 執行爬蟲
+```bash
+python crawler.py
+```
+
+#### 4. 啟動網頁介面
+```bash
+streamlit run streamlit_app.py
+```
+
+#### 5. 開啟瀏覽器
+訪問 http://localhost:8501
+
+---
+
+## 📁 專案結構
+
+```
+weather_crawler_streamlit/
+├── crawler.py              # 資料爬蟲程式
+├── query_db.py             # 命令列查詢工具
+├── streamlit_app.py        # Streamlit 網頁應用
+├── requirements.txt        # Python 依賴套件
+├── README.md              # 專案說明文檔
+├── .gitignore             # Git 忽略規則
+├── sqlitedata.db          # SQLite 資料庫（執行後生成）
+└── openspec/              # OpenSpec 專案規格
+    ├── project.md
+    └── changes/
+```
+
+---
+
+## 🔧 技術架構
+
+### 後端
+- **Python 3.x**: 主要程式語言
+- **requests**: HTTP 請求處理
+- **SQLite**: 輕量級資料庫
+
+### 前端
+- **Streamlit**: 快速 Web 應用框架
+- **Plotly**: 互動式圖表庫
+- **Pandas**: 資料處理
+
+### 部署
+- **Streamlit Cloud**: 雲端託管平台
+- **GitHub**: 版本控制與自動部署
+
+---
+
+## 📊 資料流程
+
+```
+CWA Open Data API
+        ↓
+   fetch_cwa_opendata()
+        ↓
+extract_temperature_table()
+        ↓
+    SQLite Database
+        ↓
+┌───────────────┬───────────────┐
+│  CLI Query    │  Streamlit UI │
+│  (query_db.py)│(streamlit_app)│
+└───────────────┴───────────────┘
+```
+
+---
+
+## 🐛 疑難排解
+
+### 常見問題
+
+**Q: Streamlit Cloud 顯示 "Database not found"**  
+A: 這是正常的！應用會自動從 CWA API 獲取資料並建立資料庫。首次載入需要 5-10 秒。
+
+**Q: SSL Certificate Error**  
+A: 已在 crawler.py 中設定 `verify=False` 來處理 Streamlit Cloud 的 SSL 問題。
+
+**Q: 本地執行時 Port 8501 已被使用**  
+A: 使用不同的 port：
+```bash
+streamlit run streamlit_app.py --server.port 8502
+```
+
+**Q: 資料無法更新**  
+A: 刪除 `sqlitedata.db` 並重新執行：
+```bash
+rm sqlitedata.db
+python crawler.py
+```
+
+---
+
+## 📝 注意事項
+
 1. 每次執行 `crawler.py` 都會插入新的資料記錄
 2. 相同的 (location, forecast_date, fetched_at) 組合會被視為重複
 3. 資料庫會自動記錄每次抓取的時間和狀態
 4. 可以透過 `fetched_at` 欄位追蹤資料的歷史版本
+5. Streamlit Cloud 使用臨時檔案系統，每次重啟會自動重新獲取資料
 
-## 授權資訊
+---
+
+## 🤝 貢獻
+
+歡迎提交 Issue 和 Pull Request！
+
+### 開發流程
+1. Fork 本專案
+2. 建立功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交變更 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 開啟 Pull Request
+
+---
+
+## 📄 授權資訊
+
 本程式使用中央氣象局開放資料，請遵守其使用條款。
+
+### 資料來源
+- **中央氣象局開放資料平臺**: https://opendata.cwa.gov.tw/
+- **API**: F-A0010-001 (農業氣象預報)
+- **授權**: 政府資料開放授權條款
+
+---
+
+## 👨‍💻 作者
+
+**AIoT Course Project**
+- 🎓 中興大學在職專班 資訊工程學系
+- 📅 2025-12-06
+- 🔗 GitHub: [@Ben-programmer](https://github.com/Ben-programmer)
+
+---
+
+## ⭐ 如果這個專案對您有幫助，請給個星星！
+
+[![GitHub stars](https://img.shields.io/github/stars/Ben-programmer/weather_crawler_streamlit?style=social)](https://github.com/Ben-programmer/weather_crawler_streamlit/stargazers)
+
+---
+
+## 📞 聯絡方式
+
+有任何問題或建議？歡迎：
+- 📧 開啟 Issue
+- 💬 提交 Pull Request
+- 🌟 給專案星星支持
+
+**線上 Demo**: [https://aiot-weather-crawler-app.streamlit.app/](https://aiot-weather-crawler-app.streamlit.app/)
