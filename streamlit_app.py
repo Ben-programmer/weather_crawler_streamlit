@@ -18,6 +18,7 @@ import os
 import numpy as np
 import subprocess
 import sys
+import requests
 
 # Page configuration
 st.set_page_config(
@@ -47,26 +48,59 @@ def ensure_data_exists():
                 # Fetch data from API
                 data = crawler.fetch_cwa_opendata()
                 
-                if data and 'records' in data:
+                # Debug: Show what we received
+                if data:
+                    st.info(f"📡 API Response received. Keys: {list(data.keys())[:5]}")
+                
+                # Check if data is valid (CWA API returns 'cwaopendata' as root key)
+                if data and 'cwaopendata' in data:
                     # Initialize database
                     crawler.init_database()
                     
                     # Extract and save data
                     table_data = crawler.extract_temperature_table(data)
-                    crawler.save_to_database(table_data)
                     
-                    st.success("✅ Weather data fetched successfully!")
-                    st.rerun()  # Reload the app with new data
+                    if table_data and len(table_data) > 0:
+                        crawler.save_to_database(table_data)
+                        st.success(f"✅ Weather data fetched successfully! ({len(table_data)} records)")
+                        st.rerun()  # Reload the app with new data
+                    else:
+                        st.error("❌ No temperature data found in API response.")
+                        st.json(data)  # Show raw data for debugging
+                        st.stop()
                 else:
-                    st.error("❌ Failed to fetch data from CWA API. Please check your connection.")
+                    st.error("❌ Invalid API response format.")
+                    if data:
+                        st.warning(f"Expected 'cwaopendata' key, but got: {list(data.keys())}")
+                        st.json(data)  # Show what we actually received
+                    else:
+                        st.warning("Received empty response from API")
                     st.stop()
                     
+        except requests.exceptions.SSLError as e:
+            st.error(f"🔒 SSL Certificate Error: {e}")
+            st.warning("This might be due to SSL certificate verification issues.")
+            st.info("💡 **The fix has been applied but may need time to deploy.**\n"
+                   "Please wait a few minutes and refresh the page.")
+            st.stop()
+            
+        except requests.exceptions.RequestException as e:
+            st.error(f"🌐 Network Error: {e}")
+            st.info("💡 **Troubleshooting:**\n"
+                   "1. Check your internet connection\n"
+                   "2. Verify CWA API is accessible: https://opendata.cwa.gov.tw/\n"
+                   "3. Try again in a few moments")
+            st.stop()
+            
         except Exception as e:
-            st.error(f"❌ Error fetching data: {e}")
+            st.error(f"❌ Unexpected Error: {type(e).__name__}: {e}")
+            import traceback
+            st.code(traceback.format_exc())
             st.info("💡 **Troubleshooting:**\n"
                    "1. Check your internet connection\n"
                    "2. Verify CWA API is accessible\n"
-                   "3. Check API authorization key")
+                   "3. Check API authorization key\n"
+                   "4. Contact support with the error details above")
             st.stop()
 
 # Ensure data exists before proceeding
