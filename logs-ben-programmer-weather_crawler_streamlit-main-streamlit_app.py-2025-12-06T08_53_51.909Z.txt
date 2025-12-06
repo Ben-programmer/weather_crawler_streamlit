@@ -1,0 +1,90 @@
+
+[     UTC     ] Logs for aiot-weather-crawler-app.streamlit.app/
+────────────────────────────────────────────────────────────────────────────────────────
+[08:51:45] 🖥 Provisioning machine...
+[08:51:45] 🎛 Preparing system...
+[08:51:45] ⛓ Spinning up manager process...
+[08:51:45] 🚀 Starting up repository: 'weather_crawler_streamlit', branch: 'main', main module: 'streamlit_app.py'
+[08:51:45] 🐙 Cloning repository...
+[08:51:45] 🐙 Cloning into '/mount/src/weather_crawler_streamlit'...
+
+[08:51:45] 🐙 Cloned repository!
+[08:51:45] 🐙 Pulling code changes from Github...
+[08:51:46] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+  × No solution found when resolving dependencies:
+  ╰─▶ Because sqlite3 was not found in the package registry and you require
+      sqlite3, we can conclude that your requirements are unsatisfiable.
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 4 packages in 131ms
+Prepared 4 packages in 101ms
+Installed 4 packages in 11ms
+ + markdown-it-py==4.0.0
+ +[2025-12-06 08:51:46.586172]  mdurl==0.1.2
+ + pygments==2.19.2
+ + rich==14.2.0
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+──────────────────────────────────────── pip ───────────────────────────────────────────
+
+Using standard pip install.
+Collecting requests>=2.31.0 (from -r /mount/src/weather_crawler_streamlit/requirements.txt (line 4))
+  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+ERROR: Could not find a version that satisfies the requirement sqlite3 (from versions: none)
+ERROR: No matching distribution found for sqlite3
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using standard pip install.
+Collecting rich>=10.14.0
+  Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=10.14.0)
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.14.0)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.14.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 243.4/243.4 kB 14.0 MB/s eta 0:00:00[2025-12-06 08:51:49.041051] 
+Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 219.5 MB/s eta 0:00:00[2025-12-06 08:51:49.052449] 
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 76.9 MB/s eta 0:00:00[2025-12-06 08:51:49.078830] 
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: pygments, mdurl, markdown-it-py, rich
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.19.2
+    Uninstalling Pygments-2.19.2:
+      Successfully uninstalled Pygments-2.19.2
+  Attempting uninstall: mdurl
+    Found existing installation: mdurl 0.1.2
+    Uninstalling mdurl-0.1.2:
+      Successfully uninstalled mdurl-0.1.2
+  Attempting uninstall: markdown-it-py
+    Found existing installation: markdown-it-py 4.0.0
+    Uninstalling markdown-it-py-4.0.0:
+      Successfully uninstalled markdown-it-py-4.0.0
+  Attempting uninstall: rich
+    Found existing installation: rich 14.2.0
+    Uninstalling rich-14.2.0:
+      Successfully uninstalled rich-14.2.0
+Successfully installed markdown-it-py-4.0.0 mdurl-0.1.2 pygments-2.19.2 rich-14.2.0
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[08:51:50] ❗️ installer returned a non-zero exit code
+[08:51:50] ❗️ Error during processing dependencies! Please fix the error and push an update, or try restarting the app.
