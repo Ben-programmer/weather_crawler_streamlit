@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Database
+*.db
+sqlitedata.db
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# Environment
+venv/
+env/
+ENV/
+.env
+
+# Screenshots (optional - remove if you want to include them)
+*.png
+*.jpg
+*.jpeg
+
+# JSON data files (optional - keep F-A0010-001.json for reference)
+# F-A0010-001.json

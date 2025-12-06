@@ -1,0 +1,14 @@
+# CWA Weather Forecast System - Python Dependencies
+
+# Core dependencies
+requests>=2.31.0
+sqlite3  # Built-in, no installation needed
+
+# Streamlit Web Application
+streamlit>=1.29.0
+pandas>=2.0.0
+plotly>=5.18.0
+
+# Optional: For enhanced functionality
+# pyyaml>=6.0  # For scheduler config (future feature)
+# schedule>=1.2.0  # For scheduled crawler (future feature)
